@@ -49,15 +49,15 @@ latency_list=[]
 nbcarframe=28
 for cptcar in range(1000):
 
-    time_begin=time.time()
+    
     b = struct.pack('>B', cptcar%256) # b de classe bytes
 
     ba=bytearray()
     for n in range(nbcarframe):
         ba.extend(b)
     if debug_display: print(ba)    
-    serial.write(ba)
-
+    time_begin=time.time()
+    serial.write(ba)    
     nbcarrecus=0
     #bloquant jusqu'à recu=True
     while nbcarrecus<nbcarframe:
@@ -84,3 +84,16 @@ print("latency mean: "+str(mean(latency_list))+ " s  stdev: "+str(stdev(latency_
 #obtenu avec vrai arduino UNO R3: latency mean: 0.00407370376586914 s    stdev: 0.00041990298008214916
 #obtenu avec vrai carte arduino UNO R3 mais en enlevant le ATMEGA et en bridgant RX et TX:
 #                                 latency mean: 0.0040566914081573485 s  stdev: 0.00021642200912601025
+#obtenu avec adaptateur FTDI232 blanc latency mean: 0.01597547125816345 s  stdev: 0.00015723879877159837    
+#  |__ Port 4: Dev 20, If 0, Class=Vendor Specific Class, Driver=ftdi_sio, 12M
+#[36385.608489] usb 2-3.4: new full-speed USB device number 20 using xhci_hcd
+# [36385.718916] usb 2-3.4: New USB device found, idVendor=0403, idProduct=6015, bcdDevice=10.00
+# [36385.718934] usb 2-3.4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+# [36385.718941] usb 2-3.4: Product: Chipi-X
+# [36385.718946] usb 2-3.4: Manufacturer: FTDI
+# [36385.718950] usb 2-3.4: SerialNumber: FT5V7INI
+# [36386.302072] usbcore: registered new interface driver ftdi_sio
+# [36386.302096] usbserial: USB Serial support registered for FTDI USB Serial Device
+# [36386.302155] ftdi_sio 2-3.4:1.0: FTDI USB Serial Device converter detected
+# [36386.302180] usb 2-3.4: Detected FT-X
+# [36386.303123] usb 2-3.4: FTDI USB Serial Device converter now attached to ttyUSB0
